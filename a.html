@@ -29,7 +29,6 @@
                 const particle = document.createElement('div');
                 particle.className = 'particle';
 
-                // Получаем случайный фрагмент изображения
                 const size = Math.random() * 50 + 20;
                 const x = Math.random() * 500;
                 const y = Math.random() * 500;
@@ -41,7 +40,6 @@
                 particle.style.left = `${cat.offsetLeft + x}px`;
                 particle.style.top = `${cat.offsetTop + y}px`;
 
-                // Случайное направление разлета
                 const angle = Math.random() * Math.PI * 2;
                 const distance = Math.random() * 500 + 300;
                 const tx = Math.cos(angle) * distance;
@@ -53,7 +51,6 @@
                 document.body.appendChild(particle);
                 particle.classList.add('explosion');
 
-                // Удаляем частицу после анимации
                 setTimeout(() => {
                     particle.remove();
                 }, 1500);
@@ -74,29 +71,22 @@
             if (exploded) return;
             exploded = true;
 
-            // Проигрываем звук взрыва
             music.play();
 
-            // Создаем эффект телепортации
             createTeleportEffect();
 
-            // Взрываем кота на частицы
             createParticles(cat.src, 30);
 
-            // Прячем оригинальное изображение
             cat.style.opacity = '0';
 
-            // Меняем текст
             textElement.textContent = "by snostag";
 
-            // Через 2 секунды возвращаем кота
             setTimeout(() => {
                 cat.style.opacity = '1';
                 exploded = false;
             }, 2000);
         }
 
-        // Клик по любой области страницы
         document.addEventListener('click', explodeCat);
     </script>
 </body>
