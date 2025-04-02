@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat - SNOSTAG</title>
+    <style>
+        @import url('static/css/style.css');
+    </style>
+</head>
+
+<body>
+    <div class="click_me">
+        <img src="static/img/cat.jpg" id="cat" alt="Boom Cat">
+        <div id="text" class="text-container">DOUBLEKILL_SNETAG_ERROR</div>
+    </div>
+
+    <audio id="music" src="static/sounds/s.mp3" preload="auto" loop autoplay></audio>
+
+    <script>
+        const cat = document.getElementById('cat');
+        const textElement = document.getElementById('text');
+        const music = document.getElementById('music');
+        let exploded = false;
+
+        function createParticles(imgSrc, count) {
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                const size = Math.random() * 50 + 20;
+                const x = Math.random() * 500;
+                const y = Math.random() * 500;
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.backgroundImage = `url(${imgSrc})`;
+                particle.style.backgroundPosition = `-${x}px -${y}px`;
+                particle.style.left = `${cat.offsetLeft + x}px`;
+                particle.style.top = `${cat.offsetTop + y}px`;
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 500 + 300;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+
+                document.body.appendChild(particle);
+                particle.classList.add('explosion');
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 1500);
+            }
+        }
+
+        function createTeleportEffect() {
+            const effect = document.createElement('div');
+            effect.className = 'teleport-effect';
+            document.body.appendChild(effect);
+
+            setTimeout(() => {
+                effect.remove();
+            }, 1000);
+        }
+
+        function explodeCat() {
+            if (exploded) return;
+            exploded = true;
+
+            music.play();
+
+            createTeleportEffect();
+
+            createParticles(cat.src, 30);
+
+            cat.style.opacity = '0';
+
+            textElement.textContent = "by snostag";
+
+            setTimeout(() => {
+                cat.style.opacity = '1';
+                exploded = false;
+            }, 2000);
+        }
+
+        document.addEventListener('click', explodeCat);
+    </script>
+</body>
+
+</html>
